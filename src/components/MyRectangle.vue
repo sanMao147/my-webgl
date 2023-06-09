@@ -6,33 +6,34 @@
 </template>
 
 <script setup lang="ts">
-  import { vertexShader, fragmentShader } from '@/shaders/point'
+  import {
+    vertexShader as vShader,
+    fragmentShader as fShader,
+  } from '@/shaders/point'
   const webgl = ref<HTMLCanvasElement>()
   const initShader = (gl: WebGLRenderingContext) => {
     // 引入顶点、片元着色器源代码
-    const vertexShaderSource = vertexShader
-    const fragmentShaderSource = fragmentShader
-    // 创建顶点着色器对象
-    const vShader = gl.createShader(gl.VERTEX_SHADER) as WebGLShader
-    const fShader = gl.createShader(gl.FRAGMENT_SHADER) as WebGLShader
+    const vertexShaderSource = vShader
+    const fragmentShaderSource = fShader
+    //创建顶点着色器对象
+    const vertexShader = gl.createShader(gl.VERTEX_SHADER) as WebGLShader
+    //创建片元着色器对象
+    const fragmentShader = gl.createShader(gl.FRAGMENT_SHADER) as WebGLShader
     //引入顶点、片元着色器源代码
-    gl.shaderSource(vShader, vertexShaderSource)
-    gl.shaderSource(fShader, fragmentShaderSource)
-
+    gl.shaderSource(vertexShader, vertexShaderSource)
+    gl.shaderSource(fragmentShader, fragmentShaderSource)
     //编译顶点、片元着色器
-    gl.compileShader(vShader)
-    gl.compileShader(fShader)
-    //创建程序对象program
+    gl.compileShader(vertexShader)
+    gl.compileShader(fragmentShader)
 
+    //创建程序对象program
     const program = gl.createProgram() as WebGLProgram
     //附着顶点着色器和片元着色器到program
-    gl.attachShader(program, vShader)
-    gl.attachShader(program, fShader)
-
+    gl.attachShader(program, vertexShader)
+    gl.attachShader(program, fragmentShader)
     //链接program
     gl.linkProgram(program)
     //使用program
-
     gl.useProgram(program)
     //返回程序program对象
     return program
